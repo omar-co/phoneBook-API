@@ -5,6 +5,7 @@ namespace src\Config;
 
 use src\Router\Router;
 
+//TODO: AddPHPDOC Blocks
 class Routes
 {
     private $router;
