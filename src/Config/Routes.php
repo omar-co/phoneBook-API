@@ -3,7 +3,9 @@
 
 namespace src\Config;
 
-use src\Router\Router;
+use Db\PhoneBook;
+use src\Manager\PhoneBookManager;
+use src\Services\Router;
 
 //TODO: AddPHPDOC Blocks
 class Routes
@@ -27,7 +29,8 @@ class Routes
         $router->mount('/user', function () use ($router) {
 
             $router->get('/', function () {
-                echo 'all users';
+                $all = PhoneBookManager::all();
+               echo json_encode($all);
             });
 
             $router->post('/', function () {

@@ -2,8 +2,7 @@
 
 use src\App;
 
-//TODO: add autoload
-require_once __DIR__ . '/src/App.php';
+require_once __DIR__ . '/src/autoload.php';
 
 $app = new App();
 $app->run();
