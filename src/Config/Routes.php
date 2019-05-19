@@ -37,6 +37,11 @@ class Routes
     {
         $router = $this->router;
 
+        $router->get('/', function () {
+            echo 'Documentation: <p> <a href="https://documenter.getpostman.com/view/6431220/S1M3vQaQ" target="_blank">
+https://documenter.getpostman.com/view/6431220/S1M3vQaQ</a>';
+        });
+
         $router->set404(function () {
             header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
             echo '404, route not found!';
@@ -45,7 +50,7 @@ class Routes
         $router->mount('/contact', function () use ($router) {
 
             $router->get('/', function () {
-                 PhoneBookManager::all();
+                PhoneBookManager::all();
             });
 
             $router->post('/', function () {
@@ -97,5 +102,5 @@ class Routes
         });
 
 
-  }
+    }
 }
