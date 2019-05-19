@@ -8,32 +8,32 @@ namespace src\Services;
 class Router
 {
     /**
-     * @var array The route patterns and their handling functions
+     * @var array
      */
     private $afterRoutes = [];
 
     /**
-     * @var object|callable The function to be executed when no route has been matched
+     * @var object|callable
      */
     protected $notFoundCallback;
 
     /**
-     * @var string Current base route, used for (sub)route mounting
+     * @var string
      */
     private $baseRoute = '';
 
     /**
-     * @var string The Request Method that needs to be handled
+     * @var string
      */
     private $requestedMethod = '';
 
     /**
-     * @var string The Server Base Path for Router Execution
+     * @var string
      */
     private $serverBasePath;
 
     /**
-     * @var string Default Controllers Namespace
+     * @var string
      */
     private $namespace = '';
 
@@ -125,17 +125,6 @@ class Router
     }
 
     /**
-     * Shorthand for a route accessed using OPTIONS.
-     *
-     * @param string $pattern A route pattern such as /about/system
-     * @param object|callable $fn The handling function to be executed
-     */
-    public function options($pattern, $fn)
-    {
-        $this->match('OPTIONS', $pattern, $fn);
-    }
-
-    /**
      * Mounts a collection of callbacks onto a base route.
      *
      * @param string $baseRoute The route sub pattern to mount the callbacks on
@@ -222,7 +211,7 @@ class Router
     }
 
     /**
-     * Execute the router: Loop all defined before middleware's and routes, and execute the handling function if a match was found.
+     * Execute the router.
      *
      * @param object|callable $callback Function to be executed after a matching route was handled (= after router middleware)
      *
@@ -231,13 +220,11 @@ class Router
     public function start($callback = null)
     {
         $this->requestedMethod = $this->getRequestMethod();
-
-
         $numHandled = 0;
+
         if (isset($this->afterRoutes[$this->requestedMethod])) {
             $numHandled = $this->handle($this->afterRoutes[$this->requestedMethod], true);
         }
-
 
         if ($numHandled === 0) {
             if ($this->notFoundCallback) {
@@ -253,12 +240,11 @@ class Router
         if ($_SERVER['REQUEST_METHOD'] === 'HEAD') {
             ob_end_clean();
         }
-
         return $numHandled !== 0;
     }
 
     /**
-     * Set the 404 handling function.
+     * Set the 404.
      *
      * @param object|callable $fn The function to be executed
      */
@@ -286,7 +272,6 @@ class Router
 
             if (preg_match_all('#^' . $route['pattern'] . '$#', $uri, $matches, PREG_OFFSET_CAPTURE)) {
                 $matches = array_slice($matches, 1);
-
                 $params = array_map(function ($match, $index) use ($matches) {
 
                     if (isset($matches[$index + 1][0]) && is_array($matches[$index + 1][0])) {
@@ -295,9 +280,7 @@ class Router
 
                     return isset($match[0][0]) ? trim($match[0][0], '/') : null;
                 }, $matches, array_keys($matches));
-
                 $this->invoke($route['fn'], $params);
-
                 ++$numHandled;
 
                 if ($quitAfterRun) {
@@ -305,7 +288,6 @@ class Router
                 }
             }
         }
-
         return $numHandled;
     }
 
@@ -337,11 +319,9 @@ class Router
     public function getCurrentUri()
     {
         $uri = substr(rawurldecode($_SERVER['REQUEST_URI']), strlen($this->getBasePath()));
-
         if (false !== strpos($uri, '?')) {
             $uri = substr($uri, 0, strpos($uri, '?'));
         }
-
         return '/' . trim($uri, '/');
     }
 
@@ -355,7 +335,6 @@ class Router
         if ($this->serverBasePath === null) {
             $this->serverBasePath = implode('/', array_slice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1)) . '/';
         }
-
         return $this->serverBasePath;
     }
 }

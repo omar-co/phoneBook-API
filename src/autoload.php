@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * General function for auto-loading
+ *
+ * @param $class
+ */
+
+
 function my_autoloader($class)
 {
     $filename = str_replace('\\', '/', $class) . '.php';
