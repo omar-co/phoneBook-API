@@ -164,7 +164,7 @@ class PhoneBookManager
         $email = current($data['email']);
 
         try {
-            if ($these->emailModel->Get($id)) {
+            if ($these->emailModel->GetById($id)) {
                 $these->emailModel->Update($id, $email['Email']);
                 $result['message'] ='Email updated successfully!';
             } else {
@@ -199,7 +199,7 @@ class PhoneBookManager
         $phone = current($data['phone']);
 
         try {
-            if ($these->phoneModel->Get($id)) {
+            if ($these->phoneModel->GetById($id)) {
                 $these->phoneModel->Update($id, $phone['Phone']);
                 $result['message'] ='Phone updated successfully!';
             } else {
